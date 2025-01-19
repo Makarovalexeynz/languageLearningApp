@@ -31,8 +31,7 @@ public class FlashcardServiceImpl implements FlashcardService {
         return flashcardRepository.save(flashcard);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(long id) {
         flashcardRepository.deleteById(id);
     }
-
 }

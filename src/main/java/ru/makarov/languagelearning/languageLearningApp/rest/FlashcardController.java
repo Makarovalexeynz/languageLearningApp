@@ -1,6 +1,7 @@
 package ru.makarov.languagelearning.languageLearningApp.rest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
@@ -25,9 +26,22 @@ public class FlashcardController {
         return flashcardService.findById(id);
     }
 
-    @PostMapping(path = "api/v1/flashcadrs")
+    @PostMapping(path = "api/v1/flashcards")
     public Flashcard createFlashcard (@RequestBody Flashcard flashcard){
         return flashcardService.create(flashcard);
     }
+
+    @DeleteMapping(path = "api/v1/flashcards/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteFlashcard(@PathVariable long id) {
+        flashcardService.deleteById(id);
+    }
+
+    @PutMapping(path = "api/v1/flashcards/{id}")
+    public Flashcard updateFlashcard(@PathVariable Long id, @RequestBody Flashcard flashcard){
+        return flashcardService.update(flashcard);
+    }
+
+
 
 }

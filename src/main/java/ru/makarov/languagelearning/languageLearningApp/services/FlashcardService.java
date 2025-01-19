@@ -9,8 +9,14 @@ public interface FlashcardService {
 
     List<Flashcard> findAll();
 
-    public Optional<Flashcard> findById(Long id);
+    Optional<Flashcard> findById(Long id);
 
-    public Flashcard create(Flashcard flashcard);
+    Flashcard create(Flashcard flashcard);
+
+    void deleteById(long id);
+
+    Flashcard update(Flashcard flashcard);
+
+
 
 }
