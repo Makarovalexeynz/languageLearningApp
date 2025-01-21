@@ -1,5 +1,8 @@
 package ru.makarov.languagelearning.languageLearningApp.services;
 
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardCreateDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
 
 import java.util.List;
@@ -7,15 +10,15 @@ import java.util.Optional;
 
 public interface FlashcardService {
 
-    List<Flashcard> findAll();
+    List<FlashcardDTO> findAll();
 
-    Optional<Flashcard> findById(Long id);
+    FlashcardDTO findById(Long id);
 
-    Flashcard create(Flashcard flashcard);
+    FlashcardDTO create(FlashcardCreateDTO flashcardCreateDTO);
 
     void deleteById(long id);
 
-    Flashcard update(Flashcard flashcard);
+    FlashcardDTO update(Long id, FlashcardUpdateDTO flashcardUpdateDTO);
 
 
 
