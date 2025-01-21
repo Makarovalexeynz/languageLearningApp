@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardCreateDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
 import ru.makarov.languagelearning.languageLearningApp.services.FlashcardService;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -17,18 +20,18 @@ public class FlashcardController {
     private final FlashcardService flashcardService;
 
     @GetMapping(path = "/api/v1/flashcards", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List <Flashcard> getListFlashcard(){
+    public List <FlashcardDTO> getListFlashcard(){
         return  flashcardService.findAll();
     }
 
     @GetMapping(path = "api/v1/flashcards/{id}")
-    public Optional<Flashcard> getFlashcard(@PathVariable long id) {
+    public FlashcardDTO getFlashcard(@PathVariable long id) {
         return flashcardService.findById(id);
     }
 
     @PostMapping(path = "api/v1/flashcards")
-    public Flashcard createFlashcard (@RequestBody Flashcard flashcard){
-        return flashcardService.create(flashcard);
+    public FlashcardDTO createFlashcard (@RequestBody FlashcardCreateDTO flashcardCreateDTO){
+        return flashcardService.create(flashcardCreateDTO);
     }
 
     @DeleteMapping(path = "api/v1/flashcards/{id}")
@@ -38,10 +41,7 @@ public class FlashcardController {
     }
 
     @PutMapping(path = "api/v1/flashcards/{id}")
-    public Flashcard updateFlashcard(@PathVariable Long id, @RequestBody Flashcard flashcard){
-        return flashcardService.update(flashcard);
+    public FlashcardDTO updateFlashcard(@PathVariable Long id, @RequestBody FlashcardUpdateDTO flashcardUpdateDTO){
+        return flashcardService.update(id, flashcardUpdateDTO);
     }
-
-
-
 }
