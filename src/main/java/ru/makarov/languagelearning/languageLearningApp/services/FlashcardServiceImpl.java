@@ -37,20 +37,12 @@ public class FlashcardServiceImpl implements FlashcardService {
 
     @Transactional
     public FlashcardDTO create(FlashcardCreateDTO flashcardCreateDTO) {
-        var flashcard = new Flashcard(0, flashcardCreateDTO.getForeignWord(), flashcardCreateDTO.getNativeWord());
-        var savedFlashcard = flashcardRepository.save(flashcard);
-        return flashcardMapper.toDTO(savedFlashcard);
+        return null;
     }
 
     @Transactional
     public FlashcardDTO update(Long id, FlashcardUpdateDTO flashcardUpdateDTO) {
-        var flashcard = new Flashcard(
-                id,
-                flashcardUpdateDTO.getForeignWord(),
-                flashcardUpdateDTO.getNativeWord()
-        );
-        var updateFlashcard = flashcardRepository.save(flashcard);
-        return flashcardMapper.toDTO(updateFlashcard);
+        return null;
     }
 
     @Transactional
