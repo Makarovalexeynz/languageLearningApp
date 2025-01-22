@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table (name = "flashcards")
+@Table(name = "flashcards")
 public class Flashcard {
 
     @Id
@@ -19,6 +22,18 @@ public class Flashcard {
     @Column(name = "foreign_word", nullable = false)
     private String foreignWord;
 
-    @Column(name = "native_word", nullable = false)
-    private String nativeWord;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+    @JoinColumn(name = "language_id", nullable = false)
+    private Language foreignLanguage;
+
+    @OneToMany(mappedBy = "flashcard", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List <Translation> translations = new ArrayList<>();
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "flashcard_tags",
+            joinColumns = @JoinColumn(name = "flashcard_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags = new ArrayList<>();
 }
