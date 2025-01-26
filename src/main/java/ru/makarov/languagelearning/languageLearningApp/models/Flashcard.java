@@ -31,7 +31,7 @@ public class Flashcard {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(
-            name = "flashcard_tags",
+            name = "flashcards_tags",
             joinColumns = @JoinColumn(name = "flashcard_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
