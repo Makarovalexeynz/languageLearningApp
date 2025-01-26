@@ -20,6 +20,6 @@ public class Translation {
     @JoinColumn(name = "flashcard_id", nullable = false)
     private Flashcard flashcard;
 
-    @Column(name = "translation")
-    private String translation;
+    @Column(name = "native_word")
+    private String nativeWord;
 }
