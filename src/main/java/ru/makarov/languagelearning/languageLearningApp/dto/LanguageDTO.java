@@ -4,20 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FlashcardDTO {
+public class LanguageDTO {
 
     private Long id;
 
-    private String foreignWord;
-
-    private Long foreignLanguageId;
-
-    private List<String> tags;
-
-    private List<String> nativeWords;
+    private String name;
 }

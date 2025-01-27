@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,5 +16,10 @@ public class FlashcardCreateDTO {
     private String foreignWord;
 
     @NotNull
-    private String nativeWord;
+    private Long foreignLanguageId;
+
+    private List<String> tagNames;
+
+    @NotNull
+    private List<String> nativeWords;
 }

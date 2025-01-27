@@ -1,23 +1,32 @@
 package ru.makarov.languagelearning.languageLearningApp.mappers;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
 import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
+import ru.makarov.languagelearning.languageLearningApp.models.Tag;
+import ru.makarov.languagelearning.languageLearningApp.models.Translation;
+import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
 public class FlashcardMapper {
 
-    private final ModelMapper modelMapper;
+  public FlashcardDTO toDTO (Flashcard flashcard){
 
-    public Flashcard toModel(FlashcardDTO flashcardDTO) {
-        return modelMapper.map(flashcardDTO, Flashcard.class);
+      var tags = flashcard.getTags().stream().map(Tag::getName).collect(Collectors.toList());
+
+      var nativeWords = flashcard.getTranslations().stream().map(Translation::getNativeWord).collect(Collectors.toList());
+
+        FlashcardDTO flashcardDTO = new FlashcardDTO(
+                flashcard.getId(),
+                flashcard.getForeignWord(),
+                flashcard.getForeignLanguage().getId(),
+                tags,
+                nativeWords
+        );
+        return flashcardDTO;
     }
 
-    public FlashcardDTO toDTO(Flashcard flashcard) {
-        return modelMapper.map(flashcard, FlashcardDTO.class);
+    public Flashcard toModel(FlashcardDTO flashcardDTO) {
+        return null;
     }
 }
