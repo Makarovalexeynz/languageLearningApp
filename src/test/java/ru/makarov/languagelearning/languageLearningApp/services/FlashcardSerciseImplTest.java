@@ -1,10 +1,12 @@
 package ru.makarov.languagelearning.languageLearningApp.services;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
 
-
-@SpringBootTest
 public class FlashcardSerciseImplTest {
 
+    @Test
+    public void Test(){
+
+    }
 
 }

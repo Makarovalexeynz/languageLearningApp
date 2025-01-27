@@ -1,7 +1,6 @@
 package ru.makarov.languagelearning.languageLearningApp.services;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.transaction.annotation.Transactional;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
@@ -11,9 +10,7 @@ import ru.makarov.languagelearning.languageLearningApp.mappers.FlashcardMapper;
 import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
 import org.springframework.stereotype.Service;
 import ru.makarov.languagelearning.languageLearningApp.repositories.FlashcardRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
