@@ -30,7 +30,7 @@ public class LanguageController {
         return  languageService.findByName(name);
     }
 
-    @DeleteMapping(path = "api/v1/languades/{id}")
+    @DeleteMapping(path = "api/v1/languages/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLanguageById(@PathVariable long id) {
         languageService.deleteById(id);
