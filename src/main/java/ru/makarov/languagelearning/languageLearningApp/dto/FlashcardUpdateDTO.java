@@ -1,19 +1,23 @@
 package ru.makarov.languagelearning.languageLearningApp.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
 public class FlashcardUpdateDTO {
 
+    private Long id;
 
-    @NotNull
     private String foreignWord;
 
-    @NotNull
-    private String nativeWord;
+    private Long foreignLanguageId;
+
+    private List<String> tagNames;
+
+    private List<String> nativeWords;
 }

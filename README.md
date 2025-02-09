@@ -19,4 +19,8 @@ A RESTful API for creating and managing flashcards for language learning.
 
 'api/v1/translations': GET - Извлечь все переводы
 
-'pi/v1/translations/{flashcardId}': GET - извлечь все переводы оп Id карточки
+'api/v1/translations/{flashcardId}': GET - извлечь все переводы оп Id карточки
+
+'api/v1/flashcards': GET - извлечь все карточки 
+
+'api/v1/flashcards/{id}': GET - извлечь все карточки по ИД 
