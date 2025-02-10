@@ -1,10 +1,9 @@
 package ru.makarov.languagelearning.languageLearningApp.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import ru.makarov.languagelearning.languageLearningApp.dto.TranslationDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import ru.makarov.languagelearning.languageLearningApp.dto.*;
 import ru.makarov.languagelearning.languageLearningApp.services.TranslationService;
 
 import java.util.List;
@@ -23,5 +22,21 @@ public class TranslationController {
     @GetMapping(path = "api/v1/translations/{flashcardId}")
     public List<TranslationDTO> getTranslationByFlashcardId(@PathVariable Long flashcardId){
         return  translationService.findByFlashcardId(flashcardId);
+    }
+
+    @PostMapping(path = "api/v1/translations")
+    public TranslationDTO createTranslation (@RequestBody TranslationCreateDTO translationCreateDTO){
+        return translationService.create(translationCreateDTO);
+    }
+
+    @DeleteMapping(path = "api/v1/translations/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTranslation(@PathVariable long id) {
+        translationService.deleteById(id);
+    }
+
+    @PutMapping(path = "api/v1/translations/{id}")
+    public TranslationDTO updateTranslation(@RequestBody TranslationUpdateDTO translationUpdateDTO){
+        return translationService.update(translationUpdateDTO);
     }
 }
