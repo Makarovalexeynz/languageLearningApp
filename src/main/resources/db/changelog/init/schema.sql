@@ -25,3 +25,10 @@ CREATE TABLE IF NOT EXISTS flashcards_tags (
     tag_id BIGINT REFERENCES tags(id) NOT NULL,
     PRIMARY KEY (flashcard_id, tag_id)
 );
+
+CREATE TABLE IF NOT EXISTS users (
+id bigserial PRIMARY KEY,
+username VARCHAR(255),
+password VARCHAR(255),
+role VARCHAR(255) NOT NULL
+);
