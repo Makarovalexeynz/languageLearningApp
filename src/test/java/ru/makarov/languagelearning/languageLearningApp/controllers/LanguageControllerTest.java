@@ -10,8 +10,13 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.LanguageUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.rest.LanguageController;
 import ru.makarov.languagelearning.languageLearningApp.services.LanguageService;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.is;
@@ -82,5 +87,32 @@ public class LanguageControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("English")));
+    }
+
+    @Test
+    @WithMockUser
+    void deleteLanguageById_returns204_whenTagExists() throws Exception {
+        doNothing().when(languageService).deleteById(1L);
+        mockMvc.perform(delete("/api/v1/languages/1").with(csrf()))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @WithMockUser
+    void updateLanguage_returnsUpdatedLanguage_whenValidData() throws Exception {
+
+        long languageId = 1L;
+        LanguageUpdateDTO languageUpdateDTO = new LanguageUpdateDTO(languageId, "UpdatedLanguageName");
+        LanguageDTO updatedLanguageDTO = new LanguageDTO(languageId, "UpdatedLanguageName");
+
+        when(languageService.update(languageUpdateDTO)).thenReturn(updatedLanguageDTO);
+
+        mockMvc.perform(put("/api/v1/languages/{id}", languageId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(languageUpdateDTO)).with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("UpdatedLanguageName")));
     }
 }
