@@ -26,7 +26,7 @@ public class Flashcard {
     @JoinColumn(name = "language_id", nullable = false)
     private Language foreignLanguage;
 
-    @OneToMany(mappedBy = "flashcard", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "flashcard", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List <Translation> translations = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

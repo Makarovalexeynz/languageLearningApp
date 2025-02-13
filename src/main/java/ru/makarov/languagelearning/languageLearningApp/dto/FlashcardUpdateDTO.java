@@ -17,7 +17,7 @@ public class FlashcardUpdateDTO {
 
     private Long foreignLanguageId;
 
-    private List<String> tagNames;
+    private List<String> tags;
 
     private List<String> nativeWords;
 }

@@ -50,7 +50,7 @@ public class TranslationServiceImpl implements TranslationService {
     @Override
     @Transactional
     public void deleteById(long id) {
-        flashcardRepository.deleteById(id);
+        translateRepository.deleteById(id);
     }
 
     @Override

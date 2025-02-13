@@ -11,7 +11,7 @@ language_id bigint references languages (id) NOT NULL
 
 CREATE TABLE IF NOT EXISTS translations (
 id bigserial PRIMARY KEY,
-flashcard_id bigint references flashcards (id) NOT NULL,
+flashcard_id bigint references flashcards (id) ON DELETE CASCADE,
 native_word VARCHAR(255) NOT NULL
 );
 

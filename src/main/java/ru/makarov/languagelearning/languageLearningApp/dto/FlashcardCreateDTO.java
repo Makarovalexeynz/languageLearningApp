@@ -18,7 +18,7 @@ public class FlashcardCreateDTO {
     @NotNull
     private Long foreignLanguageId;
 
-    private List<String> tagNames;
+    private List<String> tags;
 
     @NotNull
     private List<String> nativeWords;

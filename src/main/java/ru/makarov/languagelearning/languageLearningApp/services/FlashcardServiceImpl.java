@@ -21,6 +21,7 @@ import ru.makarov.languagelearning.languageLearningApp.repositories.TranslateRep
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -59,61 +60,71 @@ public class FlashcardServiceImpl implements FlashcardService {
         var language = languageRepository.findById(flashcardCreateDTO.getForeignLanguageId())
                 .orElseThrow(() -> new NotFoundException("languages not found"));
 
+       flashcard.setForeignWord(flashcardCreateDTO.getForeignWord());
+        flashcard.setForeignLanguage(language);
+        flashcardRepository.save(flashcard);
 
-        List<Tag> tags = flashcardCreateDTO.getTagNames() != null ?
-                flashcardCreateDTO.getTagNames().stream()
-                        .map(tagName -> tagRepository.findByName(tagName).orElseGet(() -> tagRepository.save(new Tag(0,tagName))))
-                        .collect(Collectors.toList()): new ArrayList<>();
-
+        List<Tag> tags = flashcardCreateDTO.getTags() == null ? new ArrayList<>() :
+                flashcardCreateDTO.getTags().stream()
+                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames))))
+                        .collect(Collectors.toList());
 
         List<Translation> translations = flashcardCreateDTO.getNativeWords().stream()
-                .map(nativeWord -> new Translation(0, flashcard ,nativeWord))
+                .map(nativeWord -> translateRepository.save(new Translation(0, flashcard ,nativeWord) ) )
                 .collect(Collectors.toList());
 
-        flashcard.setForeignWord(flashcardCreateDTO.getForeignWord());
-        flashcard.setForeignLanguage(language);
         flashcard.setTags(tags);
         flashcard.setTranslations(translations);
-        flashcardRepository.save(flashcard);
+
         var flashcardDTO = flashcardMapper.toDTO(flashcard);
         return flashcardDTO;
     }
 
     @Transactional
-    public FlashcardDTO update(Long id, FlashcardUpdateDTO flashcardUpdateDTO) {
-
-
-        Flashcard flashcard = flashcardRepository.findById(id)
+    public FlashcardDTO update(FlashcardUpdateDTO flashcardUpdateDTO) {
+        Flashcard flashcard = flashcardRepository.findById(flashcardUpdateDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Такая карточка не найдена"));
 
 
-        if (flashcardUpdateDTO.getForeignLanguageId() !=null) {
-            Language language = languageRepository.findById(flashcardUpdateDTO.getId())
+            Language language = languageRepository.findById(flashcardUpdateDTO.getForeignLanguageId())
                     .orElseThrow(() -> new NotFoundException("Такой язык не найден"));
+
             flashcard.setForeignLanguage(language);
-        }
 
-        if (flashcardUpdateDTO.getForeignWord() !=null) {
             flashcard.setForeignWord(flashcardUpdateDTO.getForeignWord());
-        }
 
-        if (flashcardUpdateDTO.getTagNames() !=null) {
-            List <Tag> tags = flashcardUpdateDTO.getTagNames().stream()
-                    .map(tagName -> tagRepository.findByName(tagName)
-                            .orElseGet(() -> tagRepository.save(new Tag(0, tagName))))
-                    .collect(Collectors.toList());
-            flashcard.setTags(tags);
-        }
+            flashcardRepository.save(flashcard);
 
-        if (flashcardUpdateDTO.getNativeWords() !=null) {
-            List <Translation> translations = flashcardUpdateDTO.getNativeWords().stream()
-                    .map(translationName -> translateRepository.findByNativeWord(translationName)
-                            .orElseGet(() -> translateRepository.save(new Translation(0,flashcard, translationName))))
-                    .collect(Collectors.toList());
-            flashcard.setTranslations(translations);
-        }
+        List<Tag> tags = flashcardUpdateDTO.getTags() == null ? new ArrayList<>() :
+                flashcardUpdateDTO.getTags().stream()
+                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames))))
+                        .collect(Collectors.toList());
 
-        flashcardRepository.save(flashcard);
+                    flashcard.setTags(tags);
+
+        List<String> newNativeWords = flashcardUpdateDTO.getNativeWords();
+
+        List<Translation> existingTranslations = flashcard.getTranslations();
+        Map<String, Translation> existingTranslationsMap = existingTranslations.stream()
+                .collect(Collectors.toMap(Translation::getNativeWord, t -> t));
+
+        List<Translation> updatedTranslations = new ArrayList<>();
+        for (String nativeWord : newNativeWords) {
+            Translation translation = existingTranslationsMap.get(nativeWord);
+            if (translation != null) {
+                updatedTranslations.add(translation);
+            } else {
+                updatedTranslations.add(new Translation(0, flashcard, nativeWord));
+            }
+        }
+        List<Translation> translationsToRemove = existingTranslations.stream()
+                .filter(t -> !newNativeWords.contains(t.getNativeWord()))
+                .collect(Collectors.toList());
+
+        translateRepository.deleteAll(translationsToRemove);
+
+        flashcard.setTranslations(updatedTranslations);
+
         return flashcardMapper.toDTO(flashcard);
     }
 

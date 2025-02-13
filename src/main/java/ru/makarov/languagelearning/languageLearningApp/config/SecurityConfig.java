@@ -37,8 +37,8 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( ( authorize ) -> authorize
-                        .requestMatchers("/api/v1/users").hasRole("ADMIN")
-                        .requestMatchers( "/api/v1/languages" ).authenticated()
+                    //    .requestMatchers("/api/v1/users").hasRole("ADMIN")
+                    //    .requestMatchers( "/api/v1/languages" ).authenticated()
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults());
