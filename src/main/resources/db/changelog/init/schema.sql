@@ -6,7 +6,7 @@ name VARCHAR(255) UNIQUE NOT NULL
 CREATE TABLE IF NOT EXISTS flashcards (
 id bigserial PRIMARY KEY,
 foreign_word VARCHAR(255) NOT NULL,
-language_id bigint references languages (id) NOT NULL
+language_id bigint references languages (id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS translations (
@@ -21,8 +21,8 @@ name VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS flashcards_tags (
-    flashcard_id BIGINT REFERENCES flashcards(id) NOT NULL,
-    tag_id BIGINT REFERENCES tags(id) NOT NULL,
+    flashcard_id BIGINT REFERENCES flashcards(id) ON DELETE CASCADE,
+    tag_id BIGINT REFERENCES tags(id) ON DELETE CASCADE,
     PRIMARY KEY (flashcard_id, tag_id)
 );
 

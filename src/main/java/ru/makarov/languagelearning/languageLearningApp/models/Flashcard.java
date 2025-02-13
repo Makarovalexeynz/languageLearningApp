@@ -22,7 +22,7 @@ public class Flashcard {
     @Column(name = "foreign_word", nullable = false)
     private String foreignWord;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "language_id", nullable = false)
     private Language foreignLanguage;
 

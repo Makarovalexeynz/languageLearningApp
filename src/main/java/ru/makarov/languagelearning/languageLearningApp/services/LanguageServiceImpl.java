@@ -62,7 +62,8 @@ public class LanguageServiceImpl implements LanguageService {
     @Transactional
     public LanguageDTO update(LanguageUpdateDTO languageUpdateDTO) {
         Language updateLanguage = new Language(languageUpdateDTO.getId(), languageUpdateDTO.getName());
+        languageRepository.save(updateLanguage);
         LanguageDTO languageDTO = languageMapper.toDTO(updateLanguage);
-        return null;
+        return languageDTO;
     }
 }

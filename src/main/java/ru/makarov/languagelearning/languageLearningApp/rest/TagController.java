@@ -27,7 +27,7 @@ public class TagController {
         return tagService.findById(id);
     }
 
-    @GetMapping(path = "api/v1/tags/{name}")
+    @GetMapping(path = "api/v1/tags/name/{name}")
     public TagDTO getTagByName(@PathVariable String name){
         return tagService.findByName(name);
     }
