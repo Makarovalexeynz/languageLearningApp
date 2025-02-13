@@ -4,6 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/mainDb
     username: postgres
     password: postgres
+    show-sql: true
   jpa:
     generate-ddl: false
     open-in-view: false

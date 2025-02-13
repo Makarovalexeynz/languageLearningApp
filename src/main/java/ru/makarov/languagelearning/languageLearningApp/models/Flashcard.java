@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,9 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "flashcards")
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "Flashcard.tags", attributeNodes = @NamedAttributeNode("tags"))
+})
 public class Flashcard {
 
     @Id
@@ -26,6 +31,7 @@ public class Flashcard {
     @JoinColumn(name = "language_id", nullable = false)
     private Language foreignLanguage;
 
+    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(mappedBy = "flashcard", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List <Translation> translations = new ArrayList<>();
 
