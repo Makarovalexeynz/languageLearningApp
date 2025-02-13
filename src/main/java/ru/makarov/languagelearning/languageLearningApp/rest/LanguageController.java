@@ -1,10 +1,13 @@
 package ru.makarov.languagelearning.languageLearningApp.rest;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.LanguageCreateDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.LanguageUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.services.LanguageService;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class LanguageController {
         return languageService.findById(id);
     }
 
-    @GetMapping(path = "api/v1/languages/{name}")
+    @GetMapping(path = "api/v1/languages/name/{name}")
     public LanguageDTO getLanguageByName (@PathVariable String name) {
         return  languageService.findByName(name);
     }
@@ -36,5 +39,13 @@ public class LanguageController {
         languageService.deleteById(id);
     }
 
+    @PostMapping(path = "api/v1/languages")
+    public LanguageDTO createLanguage(@Valid @RequestBody LanguageCreateDTO languageCreateDTO) {
+        return languageService.create(languageCreateDTO);
+    }
 
+    @PutMapping(path = "api/v1/languages/{id}")
+    public LanguageDTO updateLanguage(@PathVariable long id, @Valid @RequestBody LanguageUpdateDTO languageUpdateDTO) {
+        return languageService.update(languageUpdateDTO);
+    }
 }

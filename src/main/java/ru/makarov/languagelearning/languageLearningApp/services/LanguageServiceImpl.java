@@ -3,7 +3,9 @@ package ru.makarov.languagelearning.languageLearningApp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.makarov.languagelearning.languageLearningApp.dto.LanguageCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageDTO;
+import ru.makarov.languagelearning.languageLearningApp.dto.LanguageUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.exceptions.NotFoundException;
 import ru.makarov.languagelearning.languageLearningApp.mappers.LanguageMapper;
 import ru.makarov.languagelearning.languageLearningApp.models.Language;
@@ -45,5 +47,22 @@ public class LanguageServiceImpl implements LanguageService {
     @Transactional
     public void deleteById(long id) {
         languageRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public LanguageDTO create(LanguageCreateDTO languageCreateDTO) {
+        Language language = new Language(0, languageCreateDTO.getName());
+        languageRepository.save(language);
+        LanguageDTO languageDTO = languageMapper.toDTO(language);
+        return languageDTO;
+    }
+
+    @Override
+    @Transactional
+    public LanguageDTO update(LanguageUpdateDTO languageUpdateDTO) {
+        Language updateLanguage = new Language(languageUpdateDTO.getId(), languageUpdateDTO.getName());
+        LanguageDTO languageDTO = languageMapper.toDTO(updateLanguage);
+        return null;
     }
 }

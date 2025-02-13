@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardUpdateDTO;
-import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
 import ru.makarov.languagelearning.languageLearningApp.services.FlashcardService;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class FlashcardController {
     }
 
     @PutMapping(path = "api/v1/flashcards/{id}")
-    public FlashcardDTO updateFlashcard(@PathVariable Long id, @RequestBody FlashcardUpdateDTO flashcardUpdateDTO){
-        return flashcardService.update(id, flashcardUpdateDTO);
+    public FlashcardDTO updateFlashcard(@RequestBody FlashcardUpdateDTO flashcardUpdateDTO){
+        return flashcardService.update(flashcardUpdateDTO);
     }
 }

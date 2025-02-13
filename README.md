@@ -1,9 +1,27 @@
 # Language Learning App API
 
-A RESTful API for creating and managing flashcards for language learning.
+Это API предоставляет функции для создания мобильного приложения или 
+веб-сайта для изучения иностранных языков. 
+Он позволяет совершать CRUD операции с Карточками, переводами, тегами и языкоми.
 
+## Краткое описание
+
+Приложение предоставляет интерактивный способ изучения языков с 
+помощью карточек.  Пользователи могут создавать свои собственные 
+колоды карточек, добавляя слова и фразы на разных языках, а также их переводы.
 
 ## API Endpoints
+
+'api/v1/translations': GET - Возвращает список всех переводов. , POST - Создает новый перевод.
+
+'api/v1/translations/{id}': GET - Возвращает перевод по ID.   DELETE - Удаляет перевод по ID.    PUT - Обновляет перевод по ID.
+
+'api/v1/translations/flashcard/{flashcardId}':GET - Возвращает список переводов для указанной flashcard.
+
+'api/v1/flashcards': GET - Возвращает список всех карточек, POST- Добавляет новую карточку
+
+'api/v1/flashcards/{id}': GET - Возвращает карточку по ИД, DELETE - удаляет карточку по ИД, PUT - корректирует карточку по ИД
+
 
 '/api/v1/languages': GET - Извлечь все языки
 
@@ -17,10 +35,3 @@ A RESTful API for creating and managing flashcards for language learning.
 
 'api/v1/tags/{name}': GET - Извлечь тег по имени
 
-'api/v1/translations': GET - Извлечь все переводы
-
-'api/v1/translations/{flashcardId}': GET - извлечь все переводы оп Id карточки
-
-'api/v1/flashcards': GET - извлечь все карточки 
-
-'api/v1/flashcards/{id}': GET - извлечь все карточки по ИД 

@@ -15,7 +15,7 @@ public interface FlashcardService {
 
     void deleteById(long id);
 
-    FlashcardDTO update(Long id, FlashcardUpdateDTO flashcardUpdateDTO);
+    FlashcardDTO update(FlashcardUpdateDTO flashcardUpdateDTO);
 
 
 
