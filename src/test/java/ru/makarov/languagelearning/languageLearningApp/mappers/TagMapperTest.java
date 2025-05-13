@@ -23,7 +23,7 @@ public class TagMapperTest {
 
     @Test
     void testToDTO() {
-        Tag tag = new Tag(1L, "Tag1");
+        Tag tag = new Tag(1L, "Tag1", null);
         TagDTO expectedDto = new TagDTO(1L, "Tag1");
         when(modelMapper.map(tag, TagDTO.class)).thenReturn(expectedDto);
         TagDTO actualDto = tagMapper.toDTO(tag);
@@ -33,7 +33,7 @@ public class TagMapperTest {
     @Test
     void testToModel() {
         TagDTO tagDTO = new TagDTO(1L, "English");
-        Tag expectedTag = new Tag(1L, "English");
+        Tag expectedTag = new Tag(1L, "English", null);
         when(modelMapper.map(tagDTO, Tag.class)).thenReturn(expectedTag);
         Tag actualTag = tagMapper.toModel(tagDTO);
         assertEquals(expectedTag, actualTag);

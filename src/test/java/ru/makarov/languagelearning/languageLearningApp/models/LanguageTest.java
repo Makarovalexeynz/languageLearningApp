@@ -16,14 +16,14 @@ public class LanguageTest {
 
     @Test
     void testConstructor() {
-        Language language = new Language(1L, "English");
+        Language language = new Language(1L, "English", new User(0L, "user", "user", "user"));
         assertEquals(1L, language.getId());
         assertEquals("English", language.getName());
     }
 
     @Test
     void testAllArgsConstructorWithNullName() {
-        assertThrows(NullPointerException.class, () -> new Language(1L, null));
+        assertThrows(NullPointerException.class, () -> new Language(1L, null, null));
     }
 
     @Test

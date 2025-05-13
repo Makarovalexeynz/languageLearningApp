@@ -3,13 +3,16 @@ package ru.makarov.languagelearning.languageLearningApp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.makarov.languagelearning.languageLearningApp.config.AuthenticationFacade;
 import ru.makarov.languagelearning.languageLearningApp.dto.TagCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.TagDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.TagUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.exceptions.NotFoundException;
 import ru.makarov.languagelearning.languageLearningApp.mappers.TagMapper;
 import ru.makarov.languagelearning.languageLearningApp.models.Tag;
+import ru.makarov.languagelearning.languageLearningApp.models.User;
 import ru.makarov.languagelearning.languageLearningApp.repositories.TagRepository;
+import ru.makarov.languagelearning.languageLearningApp.repositories.UserRepository;
 
 import java.util.List;
 
@@ -20,6 +23,10 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
 
     private  final TagMapper tagMapper;
+
+    private final UserRepository userRepository;
+
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     @Transactional(readOnly = true)
@@ -52,7 +59,10 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagDTO create(TagCreateDTO tagCreateDTO) {
-        Tag tag = new Tag(0, tagCreateDTO.getName());
+        User currentUser = authenticationFacade.getCurrentUser();
+        Tag tag = new Tag();
+        tag.setName(tagCreateDTO.getName());
+        tag.setUser(currentUser);
         tagRepository.save(tag);
         TagDTO tagDTO = tagMapper.toDTO(tag);
         return tagDTO;
@@ -61,7 +71,8 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagDTO update(TagUpdateDTO tagUpdateDTO) {
-        Tag updateTag = new Tag(tagUpdateDTO.getId(), tagUpdateDTO.getName());
+        User currentUser = authenticationFacade.getCurrentUser();
+        Tag updateTag = new Tag(tagUpdateDTO.getId(), tagUpdateDTO.getName(), currentUser);
         tagRepository.save(updateTag);
         TagDTO tagDTO = tagMapper.toDTO(updateTag);
         return tagDTO;

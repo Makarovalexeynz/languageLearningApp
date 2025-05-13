@@ -4,20 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
+import ru.makarov.languagelearning.languageLearningApp.config.AuthenticationFacade;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.FlashcardUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.exceptions.NotFoundException;
 import ru.makarov.languagelearning.languageLearningApp.mappers.FlashcardMapper;
-import ru.makarov.languagelearning.languageLearningApp.models.Flashcard;
+import ru.makarov.languagelearning.languageLearningApp.models.*;
 import org.springframework.stereotype.Service;
-import ru.makarov.languagelearning.languageLearningApp.models.Language;
-import ru.makarov.languagelearning.languageLearningApp.models.Tag;
-import ru.makarov.languagelearning.languageLearningApp.models.Translation;
-import ru.makarov.languagelearning.languageLearningApp.repositories.FlashcardRepository;
-import ru.makarov.languagelearning.languageLearningApp.repositories.LanguageRepository;
-import ru.makarov.languagelearning.languageLearningApp.repositories.TagRepository;
-import ru.makarov.languagelearning.languageLearningApp.repositories.TranslateRepository;
+import ru.makarov.languagelearning.languageLearningApp.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +33,10 @@ public class FlashcardServiceImpl implements FlashcardService {
 
     private final TranslateRepository translateRepository;
 
+    private final UserRepository userRepository;
+
+    private final AuthenticationFacade authenticationFacade;
+
     private static final Logger log = LoggerFactory.getLogger(FlashcardServiceImpl.class);
 
 
@@ -56,17 +55,19 @@ public class FlashcardServiceImpl implements FlashcardService {
     @Transactional
     public FlashcardDTO create(FlashcardCreateDTO flashcardCreateDTO) {
 
+        User currentUser = authenticationFacade.getCurrentUser();
         Flashcard flashcard = new Flashcard();
         var language = languageRepository.findById(flashcardCreateDTO.getForeignLanguageId())
                 .orElseThrow(() -> new NotFoundException("languages not found"));
 
        flashcard.setForeignWord(flashcardCreateDTO.getForeignWord());
         flashcard.setForeignLanguage(language);
+        flashcard.setUser(currentUser);
         flashcardRepository.save(flashcard);
 
         List<Tag> tags = flashcardCreateDTO.getTags() == null ? new ArrayList<>() :
                 flashcardCreateDTO.getTags().stream()
-                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames))))
+                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames, currentUser))))
                         .collect(Collectors.toList());
 
         List<Translation> translations = flashcardCreateDTO.getNativeWords().stream()
@@ -82,6 +83,8 @@ public class FlashcardServiceImpl implements FlashcardService {
 
     @Transactional
     public FlashcardDTO update(FlashcardUpdateDTO flashcardUpdateDTO) {
+
+        User currentUser = authenticationFacade.getCurrentUser();
         Flashcard flashcard = flashcardRepository.findById(flashcardUpdateDTO.getId())
                 .orElseThrow(() -> new NotFoundException("Такая карточка не найдена"));
 
@@ -97,7 +100,7 @@ public class FlashcardServiceImpl implements FlashcardService {
 
         List<Tag> tags = flashcardUpdateDTO.getTags() == null ? new ArrayList<>() :
                 flashcardUpdateDTO.getTags().stream()
-                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames))))
+                        .map(tagNames -> tagRepository.findByName(tagNames).orElseGet(() -> tagRepository.save(new Tag(0,tagNames, currentUser))))
                         .collect(Collectors.toList());
 
                     flashcard.setTags(tags);
@@ -124,7 +127,7 @@ public class FlashcardServiceImpl implements FlashcardService {
         translateRepository.deleteAll(translationsToRemove);
 
         flashcard.setTranslations(updatedTranslations);
-
+        flashcard.setUser(currentUser);
         return flashcardMapper.toDTO(flashcard);
     }
 

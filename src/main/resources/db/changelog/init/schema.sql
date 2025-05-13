@@ -1,12 +1,21 @@
+CREATE TABLE IF NOT EXISTS users (
+id bigserial PRIMARY KEY,
+username VARCHAR(255),
+password VARCHAR(255),
+role VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS languages (
 id bigserial PRIMARY KEY,
-name VARCHAR(255) UNIQUE NOT NULL
+name VARCHAR(255) UNIQUE NOT NULL,
+user_id bigint references users(id)
 );
 
 CREATE TABLE IF NOT EXISTS flashcards (
 id bigserial PRIMARY KEY,
 foreign_word VARCHAR(255) NOT NULL,
-language_id bigint references languages (id) ON DELETE CASCADE
+language_id bigint references languages (id) ON DELETE CASCADE,
+user_id bigint references users(id)
 );
 
 CREATE TABLE IF NOT EXISTS translations (
@@ -17,7 +26,8 @@ native_word VARCHAR(255) NOT NULL
 
 CREATE TABLE IF NOT EXISTS tags (
 id bigserial PRIMARY KEY,
-name VARCHAR(255) UNIQUE NOT NULL
+name VARCHAR(255) UNIQUE NOT NULL,
+user_id bigint references users(id)
 );
 
 CREATE TABLE IF NOT EXISTS flashcards_tags (
@@ -26,9 +36,3 @@ CREATE TABLE IF NOT EXISTS flashcards_tags (
     PRIMARY KEY (flashcard_id, tag_id)
 );
 
-CREATE TABLE IF NOT EXISTS users (
-id bigserial PRIMARY KEY,
-username VARCHAR(255),
-password VARCHAR(255),
-role VARCHAR(255) NOT NULL
-);

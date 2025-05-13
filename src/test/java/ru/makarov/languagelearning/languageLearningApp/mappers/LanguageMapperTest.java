@@ -23,7 +23,7 @@ public class LanguageMapperTest {
 
     @Test
     void testToDTO() {
-        Language language = new Language(1L, "English");
+        Language language = new Language(1L, "English", null);
         LanguageDTO expectedDto = new LanguageDTO(1L, "English");
         when(modelMapper.map(language, LanguageDTO.class)).thenReturn(expectedDto);
         LanguageDTO actualDto = languageMapper.toDTO(language);
@@ -33,7 +33,7 @@ public class LanguageMapperTest {
     @Test
     void testToModel() {
         LanguageDTO languageDTO = new LanguageDTO(1L, "English");
-        Language expectedLanguage = new Language(1L, "English");
+        Language expectedLanguage = new Language(1L, "English", null);
         when(modelMapper.map(languageDTO, Language.class)).thenReturn(expectedLanguage);
         Language actualLanguage = languageMapper.toModel(languageDTO);
         assertEquals(expectedLanguage, actualLanguage);

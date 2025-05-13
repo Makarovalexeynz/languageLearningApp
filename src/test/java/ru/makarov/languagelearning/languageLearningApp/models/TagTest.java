@@ -17,14 +17,14 @@ public class TagTest {
 
     @Test
     void testConstructor() {
-        Tag tag = new Tag(1L, "Home");
+        Tag tag = new Tag(1L, "Home", new User(0L, "user", "user", "user"));
         assertEquals(1L, tag.getId());
         assertEquals("Home", tag.getName());
     }
 
     @Test
     void testAllArgsConstructorWithNullName() {
-        assertThrows(NullPointerException.class, () -> new Tag(1L, null));
+        assertThrows(NullPointerException.class, () -> new Tag(1L, null, null));
     }
 
     @Test

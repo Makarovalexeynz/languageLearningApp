@@ -11,10 +11,10 @@ public class FlashcardTest {
 
     @Test
     void testAllArgsConstructor() {
-        Language language = new Language(1L, "English");
+        Language language = new Language(1L, "English", new User(0L, "user", "user", "user"));
         List<Translation> translations = new ArrayList<>();
         List<Tag> tags = new ArrayList<>();
-        Flashcard flashcard = new Flashcard(1L, "Hello", language, translations, tags);
+        Flashcard flashcard = new Flashcard(1L, "Hello", language, translations, tags, new User(0L, "user", "user", "user"));
         assertEquals(1L, flashcard.getId());
         assertEquals("Hello", flashcard.getForeignWord());
         assertEquals(language, flashcard.getForeignLanguage());
