@@ -18,12 +18,12 @@ public class FlashcardMapperTest {
         Flashcard flashcard = new Flashcard();
         flashcard.setId(1L);
         flashcard.setForeignWord("Foreign Word");
-        Language language = new Language(1L, "English");
+        Language language = new Language(1L, "English", null);
         flashcard.setForeignLanguage(language);
 
         List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag(1L,"Tag1"));
-        tags.add(new Tag(2L,"Tag2"));
+        tags.add(new Tag(1L,"Tag1", null));
+        tags.add(new Tag(2L,"Tag2", null));
         flashcard.setTags(tags);
 
         List<Translation> translations = new ArrayList<>();

@@ -3,13 +3,16 @@ package ru.makarov.languagelearning.languageLearningApp.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.makarov.languagelearning.languageLearningApp.config.AuthenticationFacade;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageCreateDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageDTO;
 import ru.makarov.languagelearning.languageLearningApp.dto.LanguageUpdateDTO;
 import ru.makarov.languagelearning.languageLearningApp.exceptions.NotFoundException;
 import ru.makarov.languagelearning.languageLearningApp.mappers.LanguageMapper;
 import ru.makarov.languagelearning.languageLearningApp.models.Language;
+import ru.makarov.languagelearning.languageLearningApp.models.User;
 import ru.makarov.languagelearning.languageLearningApp.repositories.LanguageRepository;
+import ru.makarov.languagelearning.languageLearningApp.repositories.UserRepository;
 
 import java.util.List;
 
@@ -20,6 +23,10 @@ public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
 
     private final LanguageMapper languageMapper;
+
+    private final UserRepository userRepository;
+
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     @Transactional(readOnly = true)
@@ -52,7 +59,11 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     @Transactional
     public LanguageDTO create(LanguageCreateDTO languageCreateDTO) {
-        Language language = new Language(0, languageCreateDTO.getName());
+
+        User currentUser = authenticationFacade.getCurrentUser();
+        Language language = new Language();
+        language.setName(languageCreateDTO.getName());
+        language.setUser(currentUser);
         languageRepository.save(language);
         LanguageDTO languageDTO = languageMapper.toDTO(language);
         return languageDTO;
@@ -61,7 +72,9 @@ public class LanguageServiceImpl implements LanguageService {
     @Override
     @Transactional
     public LanguageDTO update(LanguageUpdateDTO languageUpdateDTO) {
-        Language updateLanguage = new Language(languageUpdateDTO.getId(), languageUpdateDTO.getName());
+
+        User currentUser = authenticationFacade.getCurrentUser();
+        Language updateLanguage = new Language(languageUpdateDTO.getId(), languageUpdateDTO.getName(), currentUser);
         languageRepository.save(updateLanguage);
         LanguageDTO languageDTO = languageMapper.toDTO(updateLanguage);
         return languageDTO;
