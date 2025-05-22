@@ -17,7 +17,7 @@ public class TagTest {
 
     @Test
     void testConstructor() {
-        Tag tag = new Tag(1L, "Home", new User(0L, "user", "user", "user"));
+        Tag tag = new Tag(1L, "Home", new User(0L, "user", "user", null, null));
         assertEquals(1L, tag.getId());
         assertEquals("Home", tag.getName());
     }

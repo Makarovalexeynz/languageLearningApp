@@ -16,7 +16,7 @@ public class LanguageTest {
 
     @Test
     void testConstructor() {
-        Language language = new Language(1L, "English", new User(0L, "user", "user", "user"));
+        Language language = new Language(1L, "English", new User(0L, "user", "user", null, null));
         assertEquals(1L, language.getId());
         assertEquals("English", language.getName());
     }

@@ -7,9 +7,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @Entity
+@Builder
 @Table(name = "users")
 @Setter
 @Getter
@@ -27,12 +28,16 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
-    private String role;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
