@@ -9,6 +9,8 @@ import ru.makarov.languagelearning.languageLearningApp.repositories.UserReposito
 
 import java.util.List;
 
+import static ru.makarov.languagelearning.languageLearningApp.models.Role.ROLE_USER;
+
 @Service
 @RequiredArgsConstructor
 public class RegistrationService {
@@ -21,7 +23,7 @@ public class RegistrationService {
     public User register(User user){
         String encode = passwordEncoder.encode(user.getPassword());
         user.setPassword(encode);
-        user.setRole("ROLE_USER");
+        user.setRole(ROLE_USER);
         return  userRepository.save(user);
     }
 

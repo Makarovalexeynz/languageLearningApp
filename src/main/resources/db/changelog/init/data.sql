@@ -1,5 +1,5 @@
-insert into users(username, password, role)
-values ('user', '$2a$10$WNjeMNEiyFIszBkl.FdCEun.T1q/NuJL26xloV65w8CKjh6ciW3Xe', 'ROLE_USER'), ('admin', '$2a$10$mlXzmxPCXOwMCyV7RObAw.9BSfa2MIiVIZIzRDbxFqqYYxVJW6FNq', 'ROLE_ADMIN');
+insert into users(username, password, role, email)
+values ('user', '$2a$10$WNjeMNEiyFIszBkl.FdCEun.T1q/NuJL26xloV65w8CKjh6ciW3Xe', 'ROLE_USER', 'user@user.ru'), ('admin', '$2a$10$mlXzmxPCXOwMCyV7RObAw.9BSfa2MIiVIZIzRDbxFqqYYxVJW6FNq', 'ROLE_ADMIN', 'admin@admin.ru');
 
 insert into languages(name, user_id)
 values ('English', 1), ('Deutsch', 1), ('Татар теле', 1);
@@ -24,7 +24,7 @@ insert into tags (name, user_id)
 values ('Тег_1', 1), ('Тег_2', 1), ('Тег_3', 1);
 
 insert into flashcards_tags (flashcard_id, tag_id)
-values (1, 1), (2, 2), (3, 3), (4, 1), (5, 2), (6, 3), (7, 1), (8, 2), (9, 3);
+values (1, 1), (2, 2), (3, 3), (4, 1), (5, 2), (6, 3), (7, 1), (8, 2), (9, 3), (1, 2);
 
 
 
